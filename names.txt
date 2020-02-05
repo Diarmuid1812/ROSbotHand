@@ -1,0 +1,4 @@
+1 : cylindryczny
+2 : pincetowy
+3 : karta
+4 : piesc

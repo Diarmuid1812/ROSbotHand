@@ -1,0 +1,35 @@
+zaciśnięta pięść:
+        'Thumb': [0, 50, 10, 0],
+        'Finger1': [0, 90, 80],
+        'Finger2': [0, 90, 80],
+        'Finger3': [0, 90, 80]
+
+chwyt piłki:
+        'Thumb': [0, 50, 10, 0],
+        'Finger1': [0, 70, 50],
+        'Finger2': [0, 70, 50],
+        'Finger3': [0, 90, 80]
+    
+chwyt karty:
+        'Thumb': [0, 50, 20, 0],
+        'Finger1': [0, 60, 20],
+        'Finger2': [0, 80, 90],
+        'Finger3': [0, 80, 90]
+
+chwyt kubka/walcowy:
+        'Thumb': [70, 0, -40, 10],
+        'Finger1': [0, 20, 30],
+        'Finger2': [0, 32, 30],
+        'Finger3': [0, 37, 30]
+
+chwyt pincetowy:
+        'Thumb': [90, 0, -35, 10],
+        'Finger1': [0, 60, 30],
+        'Finger2': [0, 32, 30],
+        'Finger3': [0, 37, 30]
+
+otwarta dłoń:
+        'Thumb': [0, 0, 0, 0],
+        'Finger1': [0, 0, 0],
+        'Finger2': [0, 0, 0],
+        'Finger3': [0, 0, 0]

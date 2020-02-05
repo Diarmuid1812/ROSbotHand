@@ -1,0 +1,9 @@
+<launch>
+  <node name="Controller_node" pkg="Rasia_Prototyp"  type="Controller.py" output="screen"/>
+
+  <node name="Classifier_node" pkg="Rasia_Prototyp"  type="Classifier.py" output="screen"/>
+
+  <node name="ADC_node" pkg="Rasia_Prototyp"  type="ADC_node_cpp" output="screen">
+    <param name="threshold" value="0.2"/>
+  </node>
+</launch>
