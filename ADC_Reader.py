@@ -79,6 +79,11 @@ def convert(val):
     return ((float(val) * (10 / 3.3)) - 5000.) / 1000.
 
 if __name__ == '__main__':
+    """
+        Deprecated due to slow reading I2C data.
+    """
+
+
     rospy.init_node('ADC_node')
     print "Start adc node!"
     threshold = float(rospy.get_param('/ADC_node/threshold'))

@@ -16,19 +16,11 @@ int file_i2c;
 const uint8_t i2caddress = 0x04;
 const uint8_t startVoltRegAddr = 0X20;
 const int nchannels = 8;
-const int wordLength = 2;
 
 const size_t samples = 2000;
 double threshhold;
 
-enum Sign
-{
-    minus,
-    plus,
-    zero
-};
 double convert(uint16_t val);
-Sign sign(double num);
 bool readVoltage(std::vector<uint16_t>& v);
 bool moveDetected(const std::vector<double>& vol, double threshhold_val);
 std::vector<uint16_t> get_zero_crossing(const std::vector<std::vector<uint16_t>>& data);
@@ -126,19 +118,6 @@ double convert(uint16_t val)
     return ((static_cast<double>(val) * (10./ 3.3)) - 5000.)/1000.;
 }
 
- Sign sign(double num)
- {
-    if (num < 0)
-    {
-        return minus;
-    }
-    if (num > 0)
-    {
-        return plus;
-    }
-    return zero;
-}
-
 bool moveDetected(const std::vector<double>& vol, double threshhold_val)
 {
     for (auto &channel : vol)
@@ -176,8 +155,7 @@ std::vector<uint16_t> get_zero_crossing(const std::vector<std::vector<uint16_t>>
     {
         for (int j = 0; j<nchannels; ++j)
         {
-            if (sign(convert(data[i][j])) != sign(convert(data[i - 1][j])) or
-                (sign(convert(data[i][j])) == zero and sign(convert(data[i - 1][j])) == zero))
+            if (convert(data[i][j]) * convert(data[i - 1][j]) <= 0)
             {
                 channels[j] += 1;
             }
