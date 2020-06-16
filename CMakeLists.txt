@@ -23,8 +23,9 @@ include_directories(
 )
 
 add_executable(ADC_node_cpp src/ADC_Node.cpp)
+
 catkin_package(CATKIN_DEPENDS message_runtime roscpp rospy)
 
 target_link_libraries(ADC_node_cpp
         ${catkin_LIBRARIES}
-        )
+        -li2c)

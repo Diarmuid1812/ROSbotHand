@@ -2,7 +2,6 @@
 #include <fcntl.h>
 #include <time.h>
 #include <sys/ioctl.h>
-#include <linux/i2c-dev.h>
 #include <Rasia_Prototyp/zeros.h>
 #include <cstdio>
 #include <cstdlib>
@@ -10,6 +9,12 @@
 #include <iostream>
 #include <vector>
 #include <ros/ros.h>
+extern "C" {
+#include <linux/i2c-dev.h>
+#include <linux/i2c.h>  
+#include <linux/module.h>
+#include <i2c/smbus.h>
+}
 
 int file_i2c;
 
@@ -78,7 +83,7 @@ int main(int argc, char** argv)
         if (moveDetected(converteed_val, threshhold))
         {
             data[0] = measurements;
-            for (int i = 1; i < 2000; ++i)
+            for (int i = 1; i < 1500; ++i)
             {
                 clocks = clock() - t;
 

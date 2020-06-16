@@ -9,7 +9,7 @@ from hand_control import *
 class Classifier:
 
 	def __init__(self):
-		with open('/home/pi/hand_hand_interface/src/Rasia_Prototyp/model4chwyty.pkl','rb') as f:
+		with open('/home/pi/catkin_ws/src/Rasia_Prototyp/modelPZEZMS.pkl', 'rb') as f:
 			self._clf = pickle.load(f)
 		self._publisher = rospy.Publisher("CLASSIFIER_NODE", grip, queue_size=1)
 
