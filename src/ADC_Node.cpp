@@ -118,6 +118,8 @@ int main(int argc, char** argv)
             * przyklad: "1 2 3 4 5 6 7 8; 1 2 3 4 5 6 7 8; ... ; 1 2 3 4 5 6 7 8"
             * ***********************************************************/
             
+            //testowy komenarz bo zepsul sie git
+            
             for(int i = 0; i < samples; i++)	// 1500
             {
 				for(int j = 0; j < nchannels; j++)	// 8
