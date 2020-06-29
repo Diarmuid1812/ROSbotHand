@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
+#include <string>
 #include <ros/ros.h>
 extern "C" {
 #include <linux/i2c-dev.h>
@@ -51,11 +52,12 @@ int main(int argc, char** argv)
     }
 
     std::cout << "Start ADC node " << std::endl;
-    ros::init(argc, argv, "talker");
+    ros::init(argc, argv, "ADC_NODE");
     ros::NodeHandle n;
     ros::Publisher adc_publisher =
-        n.advertise<Rasia_Prototyp::zeros>("ADC_NODE", 1);
-
+        n.advertise<std_msgs::String>("ADCtalker", 100);	// nazwa talkera i wielkosc bufora wiadomosci
+	ros::Rate loop_rate(10); // 10 msgs/sec
+	
     ros::param::get("/ADC_node/threshold", threshhold);
     std::vector<uint16_t> measurements(nchannels);
     bool readingOk = true;
@@ -74,12 +76,17 @@ int main(int argc, char** argv)
         t = clock();
         start = t;
         readingOk = readVoltage(measurements);
+        std_msgs::String msg;
+        std::stringstream ss;
+        
         for (int i=0;i < nchannels;++i)
         {
             converteed_val[i] = convert(measurements[i]);
-            std::cout << converteed_val[i] << " | ";
+            //std::cout << converteed_val[i] << " | ";
+            ss << std::to_string(converteed_val[i]);
         }
-        std::cout << std::endl;
+        //std::cout << std::endl;
+        
         if (moveDetected(converteed_val, threshhold))
         {
             data[0] = measurements;
@@ -99,8 +106,13 @@ int main(int argc, char** argv)
                 data[i] = measurements;
             }
             std::cout << "===========STOP MEASUREMENT===================" << std::endl;
-            msg.samples = get_zero_crossing(data);
+            //msg.samples = get_zero_crossing(data);
+            
+            msg.data = ss.str();
             adc_publisher.publish(msg);
+            ROS_INFO("%s", msg.data.c_str());
+            ros::spinOnce(); //do odbierania pakietow - niepotrzebne ale dobra praktyka
+			loop_rate.sleep();
         }
         else
         {

@@ -4,6 +4,7 @@ import pickle
 from Rasia_Prototyp.msg import zeros, grip
 import rospy
 from hand_control import *
+from std_msgs.msg import String
 
 
 class Classifier:
@@ -25,7 +26,9 @@ if __name__ == "__main__":
 	print "Start Controller node"
 
 	classifier = Classifier()
-	rospy.Subscriber("ADC_NODE", zeros, classifier.predict)
+	#rospy.Subscriber("ADC_NODE", zeros, classifier.predict)
+	rospy.Subscriber("STFTtalker", String, classifier.predict)
+	# trzeba to wyjac ze stringa i zapisac do macierzy
 
 	rate = rospy.Rate(1000)  # 10hz
 	rospy.spin()
