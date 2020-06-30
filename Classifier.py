@@ -1,11 +1,11 @@
 #!/usr/bin/python
 import pickle
 
-from Rasia_Prototyp.msg import zeros, grip
+from rosbotic_hand.msg import grip
 import rospy
 from hand_control import *
 from std_msgs.msg import String
-
+import numpy as np
 
 class Classifier:
 
@@ -15,8 +15,8 @@ class Classifier:
 		self._publisher = rospy.Publisher("CLASSIFIER_NODE", grip, queue_size=1)
 
 	def predict(self, data):
-		zeros_list = list(data.samples)
-		decision = self._clf.predict([zeros_list])
+		array_predict = np.fromstring(data, Float64).reshape(1, -1)
+		decision = self._clf.predict([array_predict])
 
 		self._publisher.publish(decision)
 
@@ -28,7 +28,6 @@ if __name__ == "__main__":
 	classifier = Classifier()
 	#rospy.Subscriber("ADC_NODE", zeros, classifier.predict)
 	rospy.Subscriber("STFTtalker", String, classifier.predict)
-	# trzeba to wyjac ze stringa i zapisac do macierzy
 
 	rate = rospy.Rate(1000)  # 10hz
 	rospy.spin()

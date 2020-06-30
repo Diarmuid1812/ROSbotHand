@@ -3,6 +3,7 @@
 #include <time.h>
 #include <sys/ioctl.h>
 #include <Rasia_Prototyp/zeros.h>
+#include <std_msgs/String.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstdint>
@@ -103,13 +104,13 @@ int main(int argc, char** argv)
                     std::cout << "ERROR while reading" << std::endl;
                     break;
                 }
-                data[i] = measurements;              
-                
+                data[i] = measurements;
+
             }
             std::cout << "===========STOP MEASUREMENT===================" << std::endl;
             //msg.samples = get_zero_crossing(data);
             
-            
+
             /******************** konwertowanie danych ******************
             * zapisuje calosc do wielkiego sringa
             * tworzac macierz [8][1500] (tak uklada dane, ale w jednym wierszu zeby pozniej latwiej bylo sparsowac)
@@ -117,17 +118,17 @@ int main(int argc, char** argv)
             * na koncu kazdego wiersza (po 8 danych) jest ;
             * przyklad: "1 2 3 4 5 6 7 8; 1 2 3 4 5 6 7 8; ... ; 1 2 3 4 5 6 7 8"
             * ***********************************************************/
-            
+
             for(int i = 0; i < samples; i++)	// 1500
             {
 				for(int j = 0; j < nchannels; j++)	// 8
 				{
 					temp[i][j] = convert(data[i][j]);	//dla bezpieczenstwa zapisywane w oddzielnej tablicy
-					
+
 					ss << std::to_string(temp[i][j]);
 					if(j != nchannels - 1) ss << ' '; //po ostatniej probce w wierszu nie dodaje spacji
 				}
-				
+
 				if(i != samples - 1) ss << ';'; //po ostatnim wierszu nie dodaje srednika
 			}
             msg.data = ss.str();

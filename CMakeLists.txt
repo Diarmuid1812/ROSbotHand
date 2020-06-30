@@ -6,6 +6,8 @@ find_package(catkin REQUIRED COMPONENTS
         rospy
         message_generation
         roslaunch
+        std_msgs
+        genmsg
         )
 
 add_message_files(
@@ -24,7 +26,7 @@ include_directories(
 
 add_executable(ADC_node_cpp src/ADC_Node.cpp)
 
-catkin_package(CATKIN_DEPENDS message_runtime roscpp rospy)
+catkin_package(CATKIN_DEPENDS message_runtime roscpp rospy std_msgs)
 
 target_link_libraries(ADC_node_cpp
         ${catkin_LIBRARIES}
