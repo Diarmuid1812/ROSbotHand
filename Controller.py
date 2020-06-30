@@ -1,7 +1,8 @@
 #!/usr/bin/python
+
 import rospy
 from hand_control import *
-from Rasia_Prototyp.msg import grip
+from rosbotic_hand.msg import grip
 
 grips = {
     1: {'Thumb': [70, 0, -40, 10],

@@ -20,18 +20,21 @@ Call Stack (most recent call first):
   CMakeLists.txt:2 (project)
 
 
--- Using CATKIN_DEVEL_PREFIX: /cygdrive/c/Users/szust/CLionProjects/ROSbotHand/cmake-build-debug/devel
--- Using CMAKE_PREFIX_PATH: C;/opt/ros/melodic/x64C;/opt/rosdeps/x64C;/opt/vcpkg/installed/x64-windows
--- Using PYTHON_EXECUTABLE: /usr/bin/python2
--- Using default Python package layout
--- Could NOT find PY_em (missing: PY_EM) 
-CMake Error at /cygdrive/c/opt/ros/melodic/x64/share/catkin/cmake/empy.cmake:29 (message):
-  Unable to find either executable 'empy' or Python module 'em'...  try
-  installing the package 'python-empy'
-Call Stack (most recent call first):
-  /cygdrive/c/opt/ros/melodic/x64/share/catkin/cmake/all.cmake:164 (include)
-  /cygdrive/c/opt/ros/melodic/x64/share/catkin/cmake/catkinConfig.cmake:20 (include)
-  CMakeLists.txt:4 (find_package)
+CMake Error at CMakeLists.txt:4 (find_package):
+  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "catkin", but
+  CMake did not find one.
+
+  Could not find a package configuration file provided by "catkin" with any
+  of the following names:
+
+    catkinConfig.cmake
+    catkin-config.cmake
+
+  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+  "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+  provides a separate development package or SDK, be sure it has been
+  installed.
 
 
 -- Configuring incomplete, errors occurred!

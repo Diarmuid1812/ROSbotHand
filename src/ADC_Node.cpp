@@ -63,7 +63,7 @@ int main(int argc, char** argv)
     std::vector<uint16_t> measurements(nchannels);
     bool readingOk = true;
     std::vector<std::vector<uint16_t>> data(samples);
-    std::vector<std::vector<uint16_t>> temp(samples);
+    std::vector<std::vector<double>> temp(nchannels, std::vector<double> (samples));
     std::vector<double> converteed_val(nchannels);
     clock_t t, start, stop;
 
@@ -84,9 +84,7 @@ int main(int argc, char** argv)
         for (int i=0;i < nchannels;++i)
         {
             converteed_val[i] = convert(measurements[i]);
-            //std::cout << converteed_val[i] << " | ";
         }
-        //std::cout << std::endl;
         
         if (moveDetected(converteed_val, threshhold))
         {
@@ -108,32 +106,34 @@ int main(int argc, char** argv)
 
             }
             std::cout << "===========STOP MEASUREMENT===================" << std::endl;
-            //msg.samples = get_zero_crossing(data);
             
 
-            /******************** konwertowanie danych ******************
-            * zapisuje calosc do wielkiego sringa
-            * tworzac macierz [8][1500] (tak uklada dane, ale w jednym wierszu zeby pozniej latwiej bylo sparsowac)
-            * poszczegolne dane oddzielone sa spacja
-            * na koncu kazdego wiersza (po 8 danych) jest ;
-            * przyklad: "1 2 3 4 5 6 7 8; 1 2 3 4 5 6 7 8; ... ; 1 2 3 4 5 6 7 8"
+            /******************** data conversion ******************
+            * saves the data as a set of characters
+            * converting [8][1500] matrix
+            * into space delimeted String
+            * -- the dimensions of array must are not stored
+            *       in the String!
             * ***********************************************************/
 
             for(int i = 0; i < samples; i++)	// 1500
             {
 				for(int j = 0; j < nchannels; j++)	// 8
 				{
-					temp[i][j] = convert(data[i][j]);	//dla bezpieczenstwa zapisywane w oddzielnej tablicy
-
-					ss << std::to_string(temp[i][j]);
-					if(j != nchannels - 1) ss << ' '; //po ostatniej probce w wierszu nie dodaje spacji
+					temp[j][i] = convert(data[i][j]);
 				}
-
-				if(i != samples - 1) ss << ';'; //po ostatnim wierszu nie dodaje srednika
 			}
+            for(int a = 0; a < nchannels; a++)	// 8
+            {
+                for(int b = 0; b < samples; b++)	// 1500
+                {
+                    ss << std::to_string(temp[a][b]);
+                    ss << ' ';
+                }
+            }
+            
             msg.data = ss.str();
             adc_publisher.publish(msg);
-            //ROS_INFO("%s", msg.data.c_str()); // wypisuje wiadomosc w terminalu (bedzie strasznie dluga wiec moze lepiej nie)
             ros::spinOnce(); //do odbierania pakietow - niepotrzebne ale dobra praktyka
 			loop_rate.sleep();
         }
@@ -188,6 +188,7 @@ bool readVoltage(std::vector<uint16_t>& v)
     return true;
 }
 
+/** OUTDATED -- old method of feature extraction
 std::vector<uint16_t> get_zero_crossing(const std::vector<std::vector<uint16_t>>& data)
 {
     std::vector<uint16_t> channels = {0,0,0,0,0,0,0,0};
@@ -204,3 +205,4 @@ std::vector<uint16_t> get_zero_crossing(const std::vector<std::vector<uint16_t>>
     }
     return channels;
 }
+*/
